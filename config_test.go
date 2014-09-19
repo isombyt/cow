@@ -71,7 +71,7 @@ func TestParseProxy(t *testing.T) {
 		t.Error("1st http proxy server address wrong, got:", hp.server)
 	}
 
-	parser.ParseProxy("http://user:passwd@127.0.0.2:9090")
+	parser.ParseProxy("http://user@test.com:!@#$%^&*()-+:passwd@127.0.0.2:9090")
 	cnt++
 	hp, ok = pool.parent[cnt].ParentProxy.(*httpParent)
 	if !ok {
@@ -82,6 +82,9 @@ func TestParseProxy(t *testing.T) {
 	}
 	if hp.authHeader == nil {
 		t.Error("2nd http proxy server user password not parsed")
+	}
+	if hp.userPasswd != "user@test.com:!@#$%^&*()-+passwd" {
+		t.Error("2nd http proxy server user password not correct")
 	}
 
 	parser.ParseProxy("socks5://127.0.0.1:1080")
