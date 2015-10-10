@@ -4,8 +4,8 @@ COW 是一个简化穿墙的 HTTP 代理服务器。它能自动检测被墙网�
 
 [English README](README-en.md).
 
-当前版本：0.9.2 [CHANGELOG](CHANGELOG)
-[![Build Status](https://travis-ci.org/cyfdecyf/cow.png?branch=master)](https://travis-ci.org/cyfdecyf/cow)
+当前版本：0.9.6 [CHANGELOG](CHANGELOG)
+[![Build Status](https://travis-ci.org/cyfdecyf/cow.png?branch=develop)](https://travis-ci.org/cyfdecyf/cow)
 
 **欢迎在 develop branch 进行开发并发送 pull request :)**
 
@@ -37,6 +37,7 @@ COW 的设计目标是自动化，理想情况下用户无需关心哪些网站�
     #开头的行是注释，会被忽略
     # 本地 HTTP 代理地址
     # 配置 HTTP 和 HTTPS 代理时请填入该地址
+    # 若配置代理时有对所有协议使用该代理的选项，且你不清楚此选项的含义，请勾选
     # 或者在自动代理配置中填入 http://127.0.0.1:7777/pac
     listen = http://127.0.0.1:7777
 
@@ -79,7 +80,8 @@ PAC url 为 `http://<listen address>/pac`，也可将浏览器的 HTTP/HTTPS 代
 
 **一般情况下无需手工指定被墙和直连网站，该功能只是是为了处理特殊情况和性能优化。**
 
-`~/.cow/blocked` 和 `~/.cow/direct` 可指定被墙和直连网站（`direct` 中的 host 会添加到 PAC）：
+配置文件所在目录下的 `blocked` 和 `direct` 可指定被墙和直连网站（`direct` 中的 host 会添加到 PAC）。
+Windows 下文件名为 `blocked.txt` 和 `direct.txt`。
 
 - 每行一个域名或者主机名（COW 会先检查主机名是否在列表中，再检查域名）
   - 二级域名如 `google.com` 相当于 `*.google.com`
@@ -90,7 +92,7 @@ PAC url 为 `http://<listen address>/pac`，也可将浏览器的 HTTP/HTTPS 代
 
 ## 访问网站记录
 
-COW 在 `~/.cow/stat` json 文件中记录经常访问网站被墙和直连访问的次数。
+COW 在配置文件所在目录下的 `stat` json 文件中记录经常访问网站被墙和直连访问的次数。
 
 - **对未知网站，先尝试直接连接，失败后使用二级代理重试请求，2 分钟后再尝试直接**
   - 内置[常见被墙网站](site_blocked.go)，减少检测被墙所需时间（可手工添加）
@@ -120,14 +122,14 @@ COW 默认配置下检测到被墙后，过两分钟再次尝试直连也是为�
 - 不提供 cache
 - 不支持 HTTP pipeline（Chrome, Firefox 默认都没开启 pipeline，支持这个功能容易增加问题而好处并不明显）
 
-# 致谢
+# 致谢 (Acknowledgements)
 
 贡献代码：
 
+- @fzerorubigd: various bug fixes and feature implementation
 - @tevino: http parent proxy basic authentication
 - @xupefei: 提供 cow-hide.exe 以在 windows 上在后台执行 cow.exe
 - @sunteya: 改进启动和安装脚本
-- @fzerorubigd: identify blocked site by HTTP error code
 
 Bug reporter:
 

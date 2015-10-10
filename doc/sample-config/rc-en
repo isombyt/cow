@@ -79,7 +79,8 @@ listen = http://127.0.0.1:7777
 #   Here are the supported encryption methods:
 #
 #     aes-128-cfb, aes-192-cfb, aes-256-cfb,
-#     bf-cfb, cast5-cfb, des-cfb, table, rc4
+#     bf-cfb, cast5-cfb, des-cfb, rc4-md5,
+#     chacha20, salsa20, rc4, table
 #
 #   aes-128-cfb is recommended.
 #
@@ -145,6 +146,9 @@ listen = http://127.0.0.1:7777
 # Maximum CPU core to use.
 #core = 2
 
+# cow uses this site to estimate timeout, better to use a fast website.
+#estimateTarget = example.com
+
 # Ports allowed to create tunnel (HTTP CONNECT method), comma separated list
 # or repeat to append more ports.
 # Ports for the following service are allowed by default:
@@ -169,3 +173,11 @@ listen = http://127.0.0.1:7777
 # This detection is no reliable, may mistaken normal sites as blocked.
 # Only consider this option when GFW is making middle man attack.
 #detectSSLErr = false
+
+# Change the stat/blocked/direct file position, defaults to files under directory
+# containing rc file.
+# The cow user must write access to directory containing the stat file in order
+# to update stat.
+#statFile = <dir to rc file>/stat
+#blockedFile = <dir to rc file>/blocked
+#directFile = <dir to rc file>/direct
